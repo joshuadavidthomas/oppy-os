@@ -15,3 +15,6 @@ sed -i 's@Keywords=@Keywords=konsole;console;@g' /usr/share/applications/org.wez
 
 sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nX-KDE-Shortcuts=Ctrl+Alt+T@g' /usr/share/applications/org.wezfurlong.wezterm.desktop
 ln -s /usr/share/applications/org.wezfurlong.wezterm.desktop /usr/share/kglobalaccel/org.wezfurlong.wezterm.desktop
+
+sed -i 's/^TerminalApplication=.*/TerminalApplication=wezterm/' /usr/share/kde-settings/kde-profile/default/xdg/kdeglobals
+sed -i 's/^TerminalService=.*/TerminalService=org.wezfurlong.wezterm.desktop/' /usr/share/kde-settings/kde-profile/default/xdg/kdeglobals

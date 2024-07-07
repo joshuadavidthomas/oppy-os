@@ -39,3 +39,14 @@ ln -sf /usr/lib/vivaldi/vivaldi-bin /usr/bin/vivaldi-"$RELEASE_CHANNEL"
 cat >/usr/lib/tmpfiles.d/vivaldi.conf <<EOF
 L /var/opt/vivaldi - - - - /usr/lib/vivaldi
 EOF
+
+# Set up kdeglobals
+kdeglobals="/usr/share/kde-settings/kde-profile/default/xdg/kdeglobals"
+
+if sed -n '/\[General\]/,/^\[/p' "$kdeglobals" | grep -q "^BrowserApplication="; then
+  echo "BrowserApplication line exists. Updating..."
+  sed -i '/\[General\]/,/^\[/ s/^BrowserApplication=.*/BrowserApplication='vivaldi-"$RELEASE_CHANNEL"'/' "$kdeglobals"
+else
+  echo "BrowserApplication line doesn't exist. Adding..."
+  sed -i '/\[General\]/a BrowserApplication='vivaldi-"$RELEASE_CHANNEL"'' "$kdeglobals"
+fi
