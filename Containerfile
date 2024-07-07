@@ -7,9 +7,10 @@ FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
 
 ARG FEDORA_MAJOR_VERSION
 
-RUN PREFIX="/tmp" git clone https://github.com/pyenv/pyenv.git /tmp \
+RUN PREFIX="/tmp" git clone https://github.com/pyenv/pyenv.git /tmp/pyenv \
   && /tmp/pyenv/plugins/python-build/install.sh \
-  && /tmp/python-build 3.12 /tmp/python
+  && /tmp/python-build 3.12 /tmp/python \
+  && /tmp/python --version
 
 COPY system /
 COPY build /tmp/build
