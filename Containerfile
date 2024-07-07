@@ -28,6 +28,7 @@ RUN mkdir -p /var/lib/alternatives \
 ENV PREFIX /tmp/python-build
 RUN git clone https://github.com/pyenv/pyenv.git /tmp/pyenv \
   && /tmp/pyenv/plugins/python-build/install.sh \
+  && tree /tmp/python-build \
   && /tmp/python-build/bin/python-build 3.12 /tmp/python \
   && /tmp/python --version
 
