@@ -7,32 +7,6 @@ FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
 
 ARG FEDORA_MAJOR_VERSION
 
-RUN mkdir -p /var/lib/alternatives \
-  && rpm-ostree install \
-  bzip2 \
-  bzip2-devel \
-  gcc \
-  libffi-devel \
-  make \
-  openssl-devel \
-  patch \
-  readline-devel \
-  sqlite \
-  sqlite-devel \
-  tk-devel \
-  zlib-ng-compat \
-  zlib-ng-compat-devel \
-  xz-devel \
-  && ostree container commit
-
-ENV PREFIX /tmp/python-build
-RUN git clone https://github.com/pyenv/pyenv.git /tmp/pyenv \
-  && /tmp/pyenv/plugins/python-build/install.sh \
-  && /tmp/python-build/bin/python-build 3.12.4 /tmp/python \
-  && /tmp/python/bin/python --version \
-  && python --version \
-  && command -v python
-
 COPY system /
 COPY build /tmp/build
 
