@@ -1,0 +1,12 @@
+[Unit]
+Description=OppyOS Initial Setup
+After=default.target
+ConditionPathExists=!%h/.local/state/oppy-os/initial-setup/completed
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/oppy-os/initial-setup.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
