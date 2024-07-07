@@ -13,5 +13,5 @@ execute_scripts_in_dir() {
   done
 }
 
-execute_scripts_in_dir "/tmp/install"
-execute_scripts_in_dir "/tmp/overrides"
+execute_scripts_in_dir "/tmp/build/install"
+execute_scripts_in_dir "/tmp/build/overrides"
