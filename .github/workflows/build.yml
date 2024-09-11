@@ -28,6 +28,20 @@ jobs:
       packages: write
       id-token: write
 
+    strategy:
+      matrix:
+        image:
+          - "aurora"
+        suffix:
+          - ""
+          - "-dx"
+          - "-dx-nvidia"
+
+    env:
+      MY_IMAGE_NAME: "${{ github.event.repository.name }}${{ matrix.suffix }}"
+      MY_IMAGE_DESC: "My Customized Universal Blue Image${{ matrix.suffix }}"
+      IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
+
     steps:
       # Checkout push-to-registry action GitHub repository
       - name: Checkout Push to Registry action
@@ -44,8 +58,8 @@ jobs:
 
           # Have tags for tracking builds during pull request
           SHA_SHORT="${GITHUB_SHA::7}"
-          COMMIT_TAGS+=("pr-${{ github.event.number }}")
-          COMMIT_TAGS+=("${SHA_SHORT}")
+          COMMIT_TAGS+=("pr-${{ github.event.number }}${{ matrix.suffix }}")
+          COMMIT_TAGS+=("${SHA_SHORT}${{ matrix.suffix }}")
 
           # Append matching timestamp tags to keep a version history
           for TAG in "${BUILD_TAGS[@]}"; do
@@ -93,11 +107,12 @@ jobs:
         with:
           containerfiles: |
             ./Containerfile
-          # Postfix image name with -custom to make it a little more descriptive
-          # Syntax: https://docs.github.com/en/actions/learn-github-actions/expressions#format
           image: ${{ env.MY_IMAGE_NAME }}
           tags: |
             ${{ steps.generate-tags.outputs.alias_tags }}
+          build-args: |
+            SOURCE_IMAGE=${{ matrix.image }}
+            SOURCE_SUFFIX=${{ matrix.suffix }}
           labels: ${{ steps.meta.outputs.labels }}
           oci: false
 
